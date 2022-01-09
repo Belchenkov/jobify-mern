@@ -1,6 +1,6 @@
 # Jobify (MERN)
 
-> Build Full Stack "Track Your Job Search" from Scratch with MongoDB, Express, React and NodeJS
+> Build Full Stack "Track Your Job Search" App from Scratch with MongoDB, Express, React and NodeJS
 
 ###Demo - [Jobify](https://www.jobify.live/)
 
