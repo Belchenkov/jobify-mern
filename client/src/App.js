@@ -6,6 +6,9 @@ import {
 } from 'react-router-dom';
 
 import Landing from './pages/Landing';
+import Register from './pages/Register';
+import Error from './pages/Error';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -13,15 +16,11 @@ function App() {
           <Routes>
               <Route
                   path='/'
-                  element={
-                      <div>Dashboard</div>
-                  }
+                  element={<Dashboard />}
               />
               <Route
                   path='/register'
-                  element={
-                      <div>Register</div>
-                  }
+                  element={<Register />}
               />
               <Route
                   path='/landing'
@@ -29,9 +28,7 @@ function App() {
               />
               <Route
                   path='*'
-                  element={
-                      <h1>Error</h1>
-                  }
+                  element={<Error />}
               />
           </Routes>
       </BrowserRouter>
