@@ -1,8 +1,64 @@
+import { useState } from 'react';
+
+import Logo from '../components/Logo.js';
+import Wrapper from '../assets/wrappers/RegisterPage';
+import FormRow from '../components/FormRow';
+
+const initialState = {
+    name: '',
+    email: '',
+    password: '',
+    isMember: true,
+};
+
 const Register = () => {
+    const [values, setValues] = useState(initialState);
+
+    const handleChange = e => {
+
+    };
+
+    const submit = e => {
+        e.preventDefault();
+    };
+
     return (
-        <h1>
-            Register
-        </h1>
+        <Wrapper className='full-page'>
+            <form
+                className='form'
+                onSubmit={submit}
+            >
+                <Logo />
+                <h3>Login</h3>
+
+                <FormRow
+                    type='text'
+                    name='name'
+                    labelText='name'
+                    value={values.name}
+                    handleChange={handleChange}
+                />
+                <FormRow
+                    type='email'
+                    name='email'
+                    labelText='email'
+                    value={values.email}
+                    handleChange={handleChange}
+                />
+                <FormRow
+                    type='password'
+                    labelText='password'
+                    name='password'
+                    value={values.password}
+                    handleChange={handleChange}
+                />
+
+                <button
+                    type='submit'
+                    className='btn btn-block'
+                >Submit</button>
+            </form>
+        </Wrapper>
     );
 };
 
