@@ -4,17 +4,18 @@ import Logo from '../components/Logo.js';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import FormRow from '../components/FormRow';
 import Alert from '../components/Alert';
+import { useAppContext } from '../context/appContext';
 
 const initialState = {
     name: '',
     email: '',
     password: '',
     isMember: false,
-    showAlert: false,
 };
 
 const Register = () => {
     const [values, setValues] = useState(initialState);
+    const { isLoading, showAlert, alertText, alertType } = useAppContext();
 
     const toggleMember = () => {
         setValues({
@@ -39,7 +40,7 @@ const Register = () => {
             >
                 <Logo />
                 <h3>{ values.isMember ? 'Login' : 'Register' }</h3>
-                { values.showAlert && <Alert type='danger' message='Error' /> }
+                { showAlert && <Alert type={alertType} message={alertText} /> }
 
                 {!values.isMember && (
                     <FormRow
