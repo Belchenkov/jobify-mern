@@ -9,12 +9,19 @@ const initialState = {
     name: '',
     email: '',
     password: '',
-    isMember: true,
+    isMember: false,
     showAlert: false,
 };
 
 const Register = () => {
     const [values, setValues] = useState(initialState);
+
+    const toggleMember = () => {
+        setValues({
+            ...values,
+            isMember: !values.isMember,
+        })
+    };
 
     const handleChange = e => {
 
@@ -31,16 +38,18 @@ const Register = () => {
                 onSubmit={submit}
             >
                 <Logo />
-                <h3>Login</h3>
+                <h3>{ values.isMember ? 'Login' : 'Register' }</h3>
                 { values.showAlert && <Alert type='danger' message='Error' /> }
 
-                <FormRow
-                    type='text'
-                    name='name'
-                    labelText='name'
-                    value={values.name}
-                    handleChange={handleChange}
-                />
+                {!values.isMember && (
+                    <FormRow
+                        type='text'
+                        name='name'
+                        labelText='name'
+                        value={values.name}
+                        handleChange={handleChange}
+                    />)
+                }
                 <FormRow
                     type='email'
                     name='email'
@@ -60,6 +69,16 @@ const Register = () => {
                     type='submit'
                     className='btn btn-block'
                 >Submit</button>
+                <p>
+                    { values.isMember ? 'Not a member yet?': 'Already a member?' }
+                    <button
+                        type='button'
+                        className='member-btn'
+                        onClick={toggleMember}
+                    >
+                        { values.isMember ? 'Register': 'Login' }
+                    </button>
+                </p>
             </form>
         </Wrapper>
     );
