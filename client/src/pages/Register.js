@@ -3,12 +3,14 @@ import { useState } from 'react';
 import Logo from '../components/Logo.js';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import FormRow from '../components/FormRow';
+import Alert from '../components/Alert';
 
 const initialState = {
     name: '',
     email: '',
     password: '',
     isMember: true,
+    showAlert: false,
 };
 
 const Register = () => {
@@ -30,6 +32,7 @@ const Register = () => {
             >
                 <Logo />
                 <h3>Login</h3>
+                { values.showAlert && <Alert type='danger' message='Error' /> }
 
                 <FormRow
                     type='text'
