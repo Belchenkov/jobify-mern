@@ -15,7 +15,14 @@ const initialState = {
 
 const Register = () => {
     const [values, setValues] = useState(initialState);
-    const { isLoading, showAlert, alertText, alertType } = useAppContext();
+    const {
+        isLoading,
+        showAlert,
+        alertText,
+        alertType,
+        displayAlert,
+        clearAlert,
+    } = useAppContext();
 
     const toggleMember = () => {
         setValues({
@@ -25,11 +32,24 @@ const Register = () => {
     };
 
     const handleChange = e => {
-
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value,
+        });
     };
 
     const submit = e => {
         e.preventDefault();
+
+        const { name, email, password, isMember } = values;
+
+        if (!email || !password || (!isMember && !name)) {
+            displayAlert();
+            clearAlert();
+            return false;
+        }
+
+        console.log(values);
     };
 
     return (
