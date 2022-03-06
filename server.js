@@ -16,6 +16,8 @@ app.get('/', (req, res) => {
     res.send('Welcome');
 });
 
+app.use(express.json());
+
 // Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', jobsRouter);
@@ -24,7 +26,6 @@ app.use('/api/v1/jobs', jobsRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-app.use(express.json());
 
 const PORT = process.env.PORT || 3005;
 
