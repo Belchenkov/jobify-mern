@@ -1,9 +1,11 @@
+import { StatusCodes } from "http-status-codes";
+
 import User from '../models/User.js';
 
 const register = async (req, res) => {
     const user = await User.create(req.body);
 
-    res.status(201)
+    res.status(StatusCodes.CREATED)
         .json({
             status: true,
             user
