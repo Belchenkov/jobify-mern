@@ -1,21 +1,13 @@
 import User from '../models/User.js';
 
 const register = async (req, res) => {
-    try {
-        const user = await User.create(req.body);
+    const user = await User.create(req.body);
 
-        res.status(201)
-            .json({
-                status: true,
-                user
-            });
-    } catch (err) {
-        res.status(500)
-            .json({
-                status: false,
-                msg: err.message
-            });
-    }
+    res.status(201)
+        .json({
+            status: true,
+            user
+        });
 };
 
 const login = async (req, res) => {
