@@ -1,26 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 
 import User from '../models/User.js';
-
-class CustomAPIError extends Error {
-    constructor(message) {
-        super(message);
-    }
-}
-
-class UnprocessableEntityError extends CustomAPIError {
-    constructor(message) {
-        super(message);
-        this.statusCode = StatusCodes.UNPROCESSABLE_ENTITY;
-    }
-}
-
-class NotFoundError extends CustomAPIError {
-    constructor(message) {
-        super(message);
-        this.statusCode = StatusCodes.NOT_FOUND;
-    }
-}
+import { UnprocessableEntityError } from "../errors/index.js";
 
 const register = async (req, res) => {
     const { name, email, password } = req.body;
