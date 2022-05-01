@@ -8,10 +8,15 @@ const errorHandlerMiddleware = (err, req, res, next) => {
         msg: 'Something went wrong, try again later'
     };
 
+    if (err.name === 'ValidationError') {
+        defaultError.statusCode = StatusCodes.UNPROCESSABLE_ENTITY;
+        defaultError.msg = Object.values(err.errors).map(item => item.message).join(',');
+    }
+
     return res
         .status(defaultError.statusCode)
         .json({
-            msg: err,
+            msg: defaultError.msg,
         });
 };
 
