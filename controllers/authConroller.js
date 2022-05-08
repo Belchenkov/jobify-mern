@@ -15,11 +15,13 @@ const register = async (req, res) => {
         email,
         password,
     });
+    const token = user.createJWT();
 
     res.status(StatusCodes.CREATED)
         .json({
             status: true,
-            user
+            user,
+            token,
         });
 };
 
