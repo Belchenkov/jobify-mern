@@ -20,8 +20,13 @@ const register = async (req, res) => {
     res.status(StatusCodes.CREATED)
         .json({
             status: true,
-            user,
-            token,
+            user: {
+                email: user.email,
+                lastName: user.lastName,
+                location: user.location,
+                name: user.name,
+                token,
+            },
         });
 };
 
