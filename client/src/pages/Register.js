@@ -22,6 +22,7 @@ const Register = () => {
         alertType,
         displayAlert,
         clearAlert,
+        registerUser,
     } = useAppContext();
 
     const toggleMember = () => {
@@ -49,7 +50,12 @@ const Register = () => {
             return false;
         }
 
-        console.log(values);
+        const currentUser = {
+            name,
+            email,
+            password,
+        };
+        registerUser(currentUser);
     };
 
     return (
@@ -89,6 +95,7 @@ const Register = () => {
                 <button
                     type='submit'
                     className='btn btn-block'
+                    disabled={isLoading}
                 >Submit</button>
                 <p>
                     { values.isMember ? 'Not a member yet?': 'Already a member?' }
