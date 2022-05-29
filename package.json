@@ -5,8 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "server": "nodemon server --ignore client",
+    "client": "npm start --prefix client",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \" npm run client \""
   },
   "repository": {
     "type": "git",
@@ -20,13 +21,17 @@
   },
   "homepage": "https://github.com/Belchenkov/jobify-mern#readme",
   "devDependencies": {
+    "concurrently": "^7.2.0",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "http-status-codes": "^2.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.2",
     "validator": "^13.7.0"
   }
