@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Logo from '../components/Logo.js';
 import Wrapper from '../assets/wrappers/RegisterPage';
@@ -14,6 +15,7 @@ const initialState = {
 };
 
 const Register = () => {
+    const navigate = useNavigate();
     const [values, setValues] = useState(initialState);
     const {
         isLoading,
@@ -22,6 +24,8 @@ const Register = () => {
         alertType,
         displayAlert,
         clearAlert,
+        registerUser,
+        user,
     } = useAppContext();
 
     const toggleMember = () => {
@@ -49,8 +53,22 @@ const Register = () => {
             return false;
         }
 
-        console.log(values);
+        const currentUser = {
+            name,
+            email,
+            password,
+        };
+
+        registerUser(currentUser);
     };
+
+    useEffect(() => {
+        if (user) {
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        }
+    }, [user, navigate]);
 
     return (
         <Wrapper className='full-page'>
@@ -89,6 +107,7 @@ const Register = () => {
                 <button
                     type='submit'
                     className='btn btn-block'
+                    disabled={isLoading}
                 >Submit</button>
                 <p>
                     { values.isMember ? 'Not a member yet?': 'Already a member?' }
