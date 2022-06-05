@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import 'express-async-errors';
+import morgan from 'morgan';
 
 import connectDB from './db/connect.js';
 import authRouter from './routes/authRoutes.js';
@@ -24,6 +25,10 @@ app.get('/api/v1', (req, res) => {
         msg: 'API works!'
     });
 });
+
+if (process.env.NODE_ENV !== 'production') {
+    app.use(morgan('dev'));
+}
 
 app.use(express.json());
 
