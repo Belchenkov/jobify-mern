@@ -24,7 +24,7 @@ const Register = () => {
         alertType,
         displayAlert,
         clearAlert,
-        registerUser,
+        setupUser,
         user,
     } = useAppContext();
 
@@ -59,7 +59,9 @@ const Register = () => {
             password,
         };
 
-        registerUser(currentUser);
+        isMember
+            ? setupUser({ currentUser, endpoint: 'login', alertText: 'Login Successful! Redirecting...' })
+            : setupUser({ currentUser, endpoint: 'register', alertText: 'Register Successful! Redirecting...' });
     };
 
     useEffect(() => {
