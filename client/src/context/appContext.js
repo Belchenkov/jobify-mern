@@ -86,10 +86,6 @@ const AppProvider = ({ children }) => {
         localStorage.removeItem('location');
     };
 
-    const loginUser = async currentUser => {
-        console.log(currentUser);
-    };
-
     return <AppContext.Provider value={{
         ...state,
         displayAlert,

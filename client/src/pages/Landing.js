@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import mainLogo from '../assets/images/main-alternative.svg';
 import Logo from '../components/Logo';
 
 const Landing = () => {
+    const navigate = useNavigate();
+
     return (
         <Wrapper>
             <nav>
@@ -19,7 +22,10 @@ const Landing = () => {
                         Plaid yuccie sustainable live-edge intelligentsia vaporware shaman slow-carb etsy tumeric
                         tilde air plant.
                     </p>
-                    <button className="btn btn-hero">
+                    <button
+                        className="btn btn-hero"
+                        onClick={() => navigate('/register')}
+                    >
                         Login/Register
                     </button>
                 </div>
