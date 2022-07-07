@@ -4,7 +4,10 @@ import {
     SETUP_USER_ERROR,
     SETUP_USER_SUCCESS,
     SETUP_USER_BEGIN,
+    TOGGLE_SIDEBAR,
+    LOGOUT_USER,
 } from './actions';
+import { initialState } from './appContext';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -46,6 +49,19 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: action.payload.msg,
+            };
+        case TOGGLE_SIDEBAR:
+            return {
+                ...state,
+                showSidebar: !state.showSidebar,
+            };
+        case LOGOUT_USER:
+            return {
+                ...initialState,
+                user: null,
+                token: null,
+                jobLocation: '',
+                userLocation: '',
             };
         default:
             throw new Error(`No such action: ${action.type}`);
