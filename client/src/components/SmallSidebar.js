@@ -6,6 +6,7 @@ import Wrapper from "../assets/wrappers/SmallSidebar";
 import { useAppContext } from '../context/appContext';
 import links from '../utils/links';
 import Logo from './Logo';
+import NavLinks from './NavLinks';
 
 const SmallSidebar = () => {
     const { showSidebar, toggleSidebar } = useAppContext();
@@ -24,9 +25,9 @@ const SmallSidebar = () => {
                     <header>
                         <Logo />
                     </header>
-                    <div className="nav-links">
-
-                    </div>
+                    <NavLinks
+                        toggleSidebar={toggleSidebar}
+                    />
                 </div>
             </div>
         </Wrapper>
