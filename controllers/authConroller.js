@@ -63,8 +63,39 @@ const login = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-    console.log(req.user);
-    res.send('updateUser');
+    const {
+        email,
+        name,
+        lastName,
+        location,
+    } = req.body;
+
+    if (!email || !name || !lastName || !location) {
+        throw new UnprocessableEntityError('Please provide all values');
+    }
+
+    const user = await User.findOne({
+        _id: req.user.userId,
+    });
+
+    user.name = name;
+    user.email = email;
+    user.lastName = lastName;
+    user.location = location;
+
+    await user.save();
+
+    res.status(StatusCodes.OK)
+        .json({
+            status: true,
+            user: {
+                email: user.email,
+                lastName: user.lastName,
+                location: user.location,
+                name: user.name,
+                token: user.createJWT(),
+            },
+        });
 };
 
 export {
