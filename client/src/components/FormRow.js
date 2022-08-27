@@ -12,7 +12,7 @@ const FormRow = ({
             <label
                 htmlFor={name}
                 className='form-label'
-            >{labelText}</label>
+            >{labelText || name}</label>
             <input
                 type={type}
                 value={value}
