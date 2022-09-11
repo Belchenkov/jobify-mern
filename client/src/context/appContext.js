@@ -35,9 +35,19 @@ const AppProvider = ({ children }) => {
 
     const authFetch = axios.create({
         baseURL: '/api/v1',
-        headers: {
-            Authorization: `Bearer ${state.token}`
-        },
+    });
+
+    authFetch.interceptors.request.use((config) => {
+        config.headers.common['Authorization'] = `Bearer ${state.token}`;
+        return config;
+    }, (err) => {
+        return Promise.reject(err);
+    });
+
+    authFetch.interceptors.response.use((response) => {
+        return response;
+    }, (err) => {
+        return Promise.reject(err);
     });
 
     const displayAlert = () => {
