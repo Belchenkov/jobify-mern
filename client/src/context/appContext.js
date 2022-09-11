@@ -21,8 +21,8 @@ const initialState = {
     showAlert: false,
     alertText: '',
     alertType: '',
+    token,
     user: user ? JSON.parse(user) : null,
-    token: null,
     userLocation: userLocation ?? '',
     jobLocation: userLocation ?? '',
     showSidebar: false,
@@ -103,7 +103,17 @@ const AppProvider = ({ children }) => {
     };
 
     const updateUser = async currentUser => {
+        try {
+            const { data } = await axios.patch('api/v1/auth/update-user', currentUser, {
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            });
 
+            console.log('update', data);
+        } catch (err) {
+            console.error(err.response);
+        }
     };
 
     return <AppContext.Provider value={{
@@ -113,6 +123,7 @@ const AppProvider = ({ children }) => {
         setupUser,
         toggleSidebar,
         logoutUser,
+        updateUser,
     }}>{ children }</AppContext.Provider>;
 }
 
