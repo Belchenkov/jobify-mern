@@ -1,5 +1,26 @@
+import { StatusCodes } from 'http-status-codes';
+
+import Job from '../models/Job.js';
+import UnprocessableEntityError from '../errors/unprocessable-entity.js';
+
 const createJob = async (req, res) => {
-    res.send('create Job');
+    const { position, company } = req.body;
+
+    if (!position || !company) {
+        throw new UnprocessableEntityError('Please provide all values');
+    }
+
+    const job = await Job.create({
+        position,
+        company,
+        createdBy: req.user.userId,
+    });
+
+    res.status(StatusCodes.CREATED)
+        .json({
+            status: true,
+            job,
+        })
 };
 
 const getAllJobs = async (req, res) => {
