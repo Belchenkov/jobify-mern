@@ -44,6 +44,12 @@ const AppProvider = ({ children }) => {
         config.headers.common['Authorization'] = `Bearer ${state.token}`;
         return config;
     }, (err) => {
+        console.error(err.response);
+
+        if (err.response.status === 401) {
+            logoutUser();
+        }
+
         return Promise.reject(err);
     });
 
@@ -144,12 +150,14 @@ const AppProvider = ({ children }) => {
             addUserToLocalStorage({ user, location, token });
         } catch (err) {
             console.error(err.response);
-            dispatch({
-                type: UPDATE_USER_ERROR,
-                payload: {
-                    msg: error.response.data.msg,
-                },
-            });
+            if (err.response.status !== 401) {
+                dispatch({
+                    type: UPDATE_USER_ERROR,
+                    payload: {
+                        msg: err.response.data.msg
+                    }
+                });
+            }
         }
 
         clearAlert();
