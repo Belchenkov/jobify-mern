@@ -10,6 +10,7 @@ import {
     UPDATE_USER_SUCCESS,
     UPDATE_USER_ERROR,
     HANDLE_CHANGE,
+    CLEAR_VALUES,
 } from './actions';
 import { initialState } from './appContext';
 
@@ -84,6 +85,17 @@ const reducer = (state, action) => {
                 ...state,
                 [action.payload.name]: action.payload.value,
             };
+        case CLEAR_VALUES:
+            return {
+                ...state,
+                isEditing: false,
+                editJobId: '',
+                position: '',
+                company: '',
+                jobLocation: state.userLocation,
+                jobType: 'full-time',
+                status: 'pending',
+            }
         case TOGGLE_SIDEBAR:
             return {
                 ...state,
