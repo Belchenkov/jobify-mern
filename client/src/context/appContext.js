@@ -13,6 +13,7 @@ import {
     UPDATE_USER_BEGIN,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_ERROR,
+    HANDLE_CHANGE,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -24,13 +25,14 @@ const initialState = {
     isEditing: false,
     editJobId: '',
     position: '',
+    company: '',
+    jobLocation: userLocation ?? '',
     showAlert: false,
     alertText: '',
     alertType: '',
     token,
     user: user ? JSON.parse(user) : null,
     userLocation: userLocation ?? '',
-    jobLocation: userLocation ?? '',
     jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
     jobType: 'full-time',
     statusOptions: ['interview', 'declined', 'pending'],
@@ -170,15 +172,28 @@ const AppProvider = ({ children }) => {
         clearAlert();
     };
 
-    return <AppContext.Provider value={{
-        ...state,
-        displayAlert,
-        clearAlert,
-        setupUser,
-        toggleSidebar,
-        logoutUser,
-        updateUser,
-    }}>{ children }</AppContext.Provider>;
+    const handleChange = ({name, value}) => {
+        dispatch({
+            type: HANDLE_CHANGE,
+            payload: {
+                name,
+                value,
+            }
+        });
+    };
+
+    return <AppContext.Provider
+        value={{
+            ...state,
+            displayAlert,
+            clearAlert,
+            setupUser,
+            toggleSidebar,
+            logoutUser,
+            updateUser,
+            handleChange,
+        }}
+    >{ children }</AppContext.Provider>;
 }
 
 const useAppContext = () => {
