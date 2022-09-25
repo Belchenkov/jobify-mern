@@ -21,6 +21,9 @@ const userLocation = localStorage.getItem('location');
 
 const initialState = {
     isLoading: false,
+    isEditing: false,
+    editJobId: '',
+    position: '',
     showAlert: false,
     alertText: '',
     alertType: '',
@@ -28,6 +31,10 @@ const initialState = {
     user: user ? JSON.parse(user) : null,
     userLocation: userLocation ?? '',
     jobLocation: userLocation ?? '',
+    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+    jobType: 'full-time',
+    statusOptions: ['interview', 'declined', 'pending'],
+    status: 'pending',
     showSidebar: false,
 };
 
