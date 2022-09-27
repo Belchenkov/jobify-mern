@@ -21,8 +21,8 @@ const initialState = {
     showAlert: false,
     alertText: '',
     alertType: '',
+    token,
     user: user ? JSON.parse(user) : null,
-    token: null,
     userLocation: userLocation ?? '',
     jobLocation: userLocation ?? '',
     showSidebar: false,
@@ -32,6 +32,23 @@ const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    const authFetch = axios.create({
+        baseURL: '/api/v1',
+    });
+
+    authFetch.interceptors.request.use((config) => {
+        config.headers.common['Authorization'] = `Bearer ${state.token}`;
+        return config;
+    }, (err) => {
+        return Promise.reject(err);
+    });
+
+    authFetch.interceptors.response.use((response) => {
+        return response;
+    }, (err) => {
+        return Promise.reject(err);
+    });
 
     const displayAlert = () => {
         dispatch({ type: DISPLAY_ALERT });
@@ -103,7 +120,13 @@ const AppProvider = ({ children }) => {
     };
 
     const updateUser = async currentUser => {
+        try {
+            const { data } = await authFetch.patch('/auth/update-user', currentUser);
 
+            console.log('update', data);
+        } catch (err) {
+            console.error(err.response);
+        }
     };
 
     return <AppContext.Provider value={{
@@ -113,6 +136,7 @@ const AppProvider = ({ children }) => {
         setupUser,
         toggleSidebar,
         logoutUser,
+        updateUser,
     }}>{ children }</AppContext.Provider>;
 }
 

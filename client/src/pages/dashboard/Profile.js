@@ -14,6 +14,7 @@ const Profile = () => {
     const [location, setLocation] = useState(user?.location);
 
     const handleSubmit = e => {
+        console.log('update');
         e.preventDefault();
 
         if (!name || !email || !lastName || !location) {
