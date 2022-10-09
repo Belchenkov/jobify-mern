@@ -9,6 +9,11 @@ import {
     UPDATE_USER_BEGIN,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_ERROR,
+    HANDLE_CHANGE,
+    CLEAR_VALUES,
+    CREATE_JOB_BEGIN,
+    CREATE_JOB_SUCCESS,
+    CREATE_JOB_ERROR,
 } from './actions';
 import { initialState } from './appContext';
 
@@ -78,6 +83,43 @@ const reducer = (state, action) => {
                 alertType: 'danger',
                 alertText: action.payload.msg,
             };
+        case CREATE_JOB_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case CREATE_JOB_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'New Job: Created!',
+            }
+        case CREATE_JOB_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg,
+            };
+        case HANDLE_CHANGE:
+            return {
+                ...state,
+                [action.payload.name]: action.payload.value,
+            };
+        case CLEAR_VALUES:
+            return {
+                ...state,
+                isEditing: false,
+                editJobId: '',
+                position: '',
+                company: '',
+                jobLocation: state.userLocation,
+                jobType: 'full-time',
+                status: 'pending',
+            }
         case TOGGLE_SIDEBAR:
             return {
                 ...state,
