@@ -20,11 +20,19 @@ const createJob = async (req, res) => {
         .json({
             status: true,
             job,
-        })
+        });
 };
 
 const getAllJobs = async (req, res) => {
-    res.send('get all Jobs');
+    const jobs = await Job.find({ createdBy: req.user.userId });
+
+    res.status(StatusCodes.OK)
+        .json({
+            status: true,
+            jobs,
+            totalJobs: jobs.length,
+            numOfPages: 1,
+        });
 };
 
 const updateJob = async (req, res) => {
