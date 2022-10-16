@@ -1,7 +1,7 @@
-const Job = () => {
+const Job = ({ company }) => {
     return (
         <>
-            Job
+            <h5>{company}</h5>
         </>
     );
 };

@@ -18,6 +18,8 @@ import {
     CREATE_JOB_BEGIN,
     CREATE_JOB_SUCCESS,
     CREATE_JOB_ERROR,
+    GET_JOBS_BEGIN,
+    GET_JOBS_SUCCESS,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -196,6 +198,31 @@ const AppProvider = ({ children }) => {
         });
     };
 
+    const getJobs = async () => {
+        const url = '/jobs';
+
+        dispatch({
+            type: GET_JOBS_BEGIN,
+        });
+
+        try {
+             const { data } = await authFetch(url);
+             const { jobs, totalJobs, numOfPages } = data;
+
+             dispatch({
+                 type: GET_JOBS_SUCCESS,
+                 payload: {
+                     jobs,
+                     totalJobs,
+                     numOfPages,
+                 },
+             });
+        } catch (err) {
+            console.error(err.response);
+            logoutUser();
+        }
+    };
+
     const createJob = async () => {
         dispatch({
             type: CREATE_JOB_BEGIN,
@@ -249,6 +276,7 @@ const AppProvider = ({ children }) => {
             handleChange,
             createJob,
             clearValues,
+            getJobs,
         }}
     >{ children }</AppContext.Provider>;
 }
