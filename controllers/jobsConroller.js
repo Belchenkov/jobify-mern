@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import Job from '../models/Job.js';
 import UnprocessableEntityError from '../errors/unprocessable-entity.js';
 import { NotFoundError } from '../errors/index.js';
+import checkPermissions from '../utils/checkPermissions.js';
 
 const createJob = async (req, res) => {
     const {
@@ -59,7 +60,8 @@ const updateJob = async (req, res) => {
         throw new NotFoundError(`No job with id: ${jobId}`);
     }
 
-    // check permissions
+    checkPermissions(req.user, job.createdBy);
+
     const updatedJob = await Job.findOneAndUpdate(
         { _id: jobId },
         req.body,
