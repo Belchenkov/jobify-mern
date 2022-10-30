@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import Job from '../models/Job.js';
 import UnprocessableEntityError from '../errors/unprocessable-entity.js';
+import { NotFoundError } from '../errors/index.js';
 
 const createJob = async (req, res) => {
     const {
@@ -45,7 +46,31 @@ const getAllJobs = async (req, res) => {
 };
 
 const updateJob = async (req, res) => {
-    res.send('update Job');
+    const { id: jobId } = req.params;
+    const { company, position } = req.body;
+
+    if (!position || !company) {
+        throw new UnprocessableEntityError('Please provide all values');
+    }
+
+    const job = await Job.findOne({ _id: jobId });
+
+    if (!job) {
+        throw new NotFoundError(`No job with id: ${jobId}`);
+    }
+
+    // check permissions
+    const updatedJob = await Job.findOneAndUpdate(
+        { _id: jobId },
+        req.body,
+        { new: true, runValidators: true },
+    );
+
+    res.status(StatusCodes.OK)
+        .json({
+            status: true,
+            updatedJob,
+        });
 };
 
 const deleteJob = async (req, res) => {
