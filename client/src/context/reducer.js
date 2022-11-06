@@ -18,6 +18,7 @@ import {
     GET_JOBS_SUCCESS,
     GET_JOBS_ERROR,
     SET_EDIT_JOB,
+    DELETE_JOB_BEGIN,
 } from './actions';
 import { initialState } from './appContext';
 
@@ -116,6 +117,11 @@ const reducer = (state, action) => {
                 ...job,
                 editJobId: action.payload.id,
                 isEditing: true,
+            };
+        case DELETE_JOB_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
             };
         case CREATE_JOB_BEGIN:
             return {

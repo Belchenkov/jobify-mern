@@ -21,6 +21,7 @@ import {
     GET_JOBS_BEGIN,
     GET_JOBS_SUCCESS,
     SET_EDIT_JOB,
+    DELETE_JOB_BEGIN,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -276,8 +277,17 @@ const AppProvider = ({ children }) => {
         console.log('edit job');
     };
 
-    const deleteJob = id => {
-        console.log('set delete job: ' + id);
+    const deleteJob = async id => {
+        dispatch({
+            type: DELETE_JOB_BEGIN,
+        });
+
+        try {
+            await authFetch.delete(`/jobs/${id}`);
+            await getJobs();
+        } catch (err) {
+            console.log(error.response);
+        }
     };
 
     return <AppContext.Provider
