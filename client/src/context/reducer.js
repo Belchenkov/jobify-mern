@@ -19,6 +19,9 @@ import {
     GET_JOBS_ERROR,
     SET_EDIT_JOB,
     DELETE_JOB_BEGIN,
+    EDIT_JOB_BEGIN,
+    EDIT_JOB_ERROR,
+    EDIT_JOB_SUCCESS,
 } from './actions';
 import { initialState } from './appContext';
 
@@ -137,6 +140,27 @@ const reducer = (state, action) => {
                 alertText: 'New Job: Created!',
             }
         case CREATE_JOB_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg,
+            };
+        case EDIT_JOB_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case EDIT_JOB_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Job: Updated!',
+            }
+        case EDIT_JOB_ERROR:
             return {
                 ...state,
                 isLoading: false,

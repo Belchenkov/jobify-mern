@@ -22,6 +22,9 @@ import {
     GET_JOBS_SUCCESS,
     SET_EDIT_JOB,
     DELETE_JOB_BEGIN,
+    EDIT_JOB_BEGIN,
+    EDIT_JOB_ERROR,
+    EDIT_JOB_SUCCESS,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -273,8 +276,38 @@ const AppProvider = ({ children }) => {
         });
     };
 
-    const editJob = () => {
-        console.log('edit job');
+    const editJob = async () => {
+        dispatch({
+            type: EDIT_JOB_BEGIN,
+        });
+
+        try {
+            const { position, company, jobLocation, jobType, status } = state;
+
+            await authFetch.patch(`/jobs/${state.editJobId}`, {
+                company,
+                position,
+                jobLocation,
+                jobType,
+                status,
+            });
+
+            dispatch({ type: EDIT_JOB_SUCCESS });
+            clearValues();
+        } catch (err) {
+            if (err.response.status === 401) {
+                return;
+            }
+
+            dispatch({
+                type: EDIT_JOB_ERROR,
+                payload: {
+                    msg: err.response.data.msg,
+                }
+            });
+        }
+
+        clearAlert();
     };
 
     const deleteJob = async id => {
@@ -286,7 +319,7 @@ const AppProvider = ({ children }) => {
             await authFetch.delete(`/jobs/${id}`);
             await getJobs();
         } catch (err) {
-            console.log(error.response);
+            console.log(err.response);
         }
     };
 
