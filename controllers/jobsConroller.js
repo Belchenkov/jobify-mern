@@ -4,7 +4,13 @@ import Job from '../models/Job.js';
 import UnprocessableEntityError from '../errors/unprocessable-entity.js';
 
 const createJob = async (req, res) => {
-    const { position, company } = req.body;
+    const {
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status,
+    } = req.body;
 
     if (!position || !company) {
         throw new UnprocessableEntityError('Please provide all values');
@@ -13,6 +19,9 @@ const createJob = async (req, res) => {
     const job = await Job.create({
         position,
         company,
+        jobLocation,
+        jobType,
+        status,
         createdBy: req.user.userId,
     });
 
@@ -20,11 +29,19 @@ const createJob = async (req, res) => {
         .json({
             status: true,
             job,
-        })
+        });
 };
 
 const getAllJobs = async (req, res) => {
-    res.send('get all Jobs');
+    const jobs = await Job.find({ createdBy: req.user.userId });
+
+    res.status(StatusCodes.OK)
+        .json({
+            status: true,
+            jobs,
+            totalJobs: jobs.length,
+            numOfPages: 1,
+        });
 };
 
 const updateJob = async (req, res) => {

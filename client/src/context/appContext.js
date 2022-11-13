@@ -18,6 +18,8 @@ import {
     CREATE_JOB_BEGIN,
     CREATE_JOB_SUCCESS,
     CREATE_JOB_ERROR,
+    GET_JOBS_BEGIN,
+    GET_JOBS_SUCCESS,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -42,6 +44,10 @@ const initialState = {
     statusOptions: ['interview', 'declined', 'pending'],
     status: 'pending',
     showSidebar: false,
+    jobs: [],
+    totalJobs: 0,
+    page: 1,
+    numOfPages: 1,
 };
 
 const AppContext = React.createContext();
@@ -192,6 +198,31 @@ const AppProvider = ({ children }) => {
         });
     };
 
+    const getJobs = async () => {
+        const url = '/jobs';
+
+        dispatch({
+            type: GET_JOBS_BEGIN,
+        });
+
+        try {
+             const { data } = await authFetch(url);
+             const { jobs, totalJobs, numOfPages } = data;
+
+             dispatch({
+                 type: GET_JOBS_SUCCESS,
+                 payload: {
+                     jobs,
+                     totalJobs,
+                     numOfPages,
+                 },
+             });
+        } catch (err) {
+            console.error(err.response);
+            logoutUser();
+        }
+    };
+
     const createJob = async () => {
         dispatch({
             type: CREATE_JOB_BEGIN,
@@ -233,6 +264,14 @@ const AppProvider = ({ children }) => {
         clearAlert();
     };
 
+    const setEditJob = id => {
+        console.log('set edit job: ' + id);
+    };
+
+    const deleteJob = id => {
+        console.log('set delete job: ' + id);
+    };
+
     return <AppContext.Provider
         value={{
             ...state,
@@ -245,6 +284,9 @@ const AppProvider = ({ children }) => {
             handleChange,
             createJob,
             clearValues,
+            getJobs,
+            setEditJob,
+            deleteJob,
         }}
     >{ children }</AppContext.Provider>;
 }
