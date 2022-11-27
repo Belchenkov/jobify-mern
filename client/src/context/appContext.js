@@ -20,6 +20,11 @@ import {
     CREATE_JOB_ERROR,
     GET_JOBS_BEGIN,
     GET_JOBS_SUCCESS,
+    SET_EDIT_JOB,
+    DELETE_JOB_BEGIN,
+    EDIT_JOB_BEGIN,
+    EDIT_JOB_ERROR,
+    EDIT_JOB_SUCCESS,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -265,11 +270,57 @@ const AppProvider = ({ children }) => {
     };
 
     const setEditJob = id => {
-        console.log('set edit job: ' + id);
+        dispatch({
+            type: SET_EDIT_JOB,
+            payload: { id },
+        });
     };
 
-    const deleteJob = id => {
-        console.log('set delete job: ' + id);
+    const editJob = async () => {
+        dispatch({
+            type: EDIT_JOB_BEGIN,
+        });
+
+        try {
+            const { position, company, jobLocation, jobType, status } = state;
+
+            await authFetch.patch(`/jobs/${state.editJobId}`, {
+                company,
+                position,
+                jobLocation,
+                jobType,
+                status,
+            });
+
+            dispatch({ type: EDIT_JOB_SUCCESS });
+            clearValues();
+        } catch (err) {
+            if (err.response.status === 401) {
+                return;
+            }
+
+            dispatch({
+                type: EDIT_JOB_ERROR,
+                payload: {
+                    msg: err.response.data.msg,
+                }
+            });
+        }
+
+        clearAlert();
+    };
+
+    const deleteJob = async id => {
+        dispatch({
+            type: DELETE_JOB_BEGIN,
+        });
+
+        try {
+            await authFetch.delete(`/jobs/${id}`);
+            await getJobs();
+        } catch (err) {
+            console.log(err.response);
+        }
     };
 
     return <AppContext.Provider
@@ -286,6 +337,7 @@ const AppProvider = ({ children }) => {
             clearValues,
             getJobs,
             setEditJob,
+            editJob,
             deleteJob,
         }}
     >{ children }</AppContext.Provider>;

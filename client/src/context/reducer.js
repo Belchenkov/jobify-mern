@@ -13,7 +13,15 @@ import {
     CLEAR_VALUES,
     CREATE_JOB_BEGIN,
     CREATE_JOB_SUCCESS,
-    CREATE_JOB_ERROR, GET_JOBS_BEGIN, GET_JOBS_SUCCESS, GET_JOBS_ERROR,
+    CREATE_JOB_ERROR,
+    GET_JOBS_BEGIN,
+    GET_JOBS_SUCCESS,
+    GET_JOBS_ERROR,
+    SET_EDIT_JOB,
+    DELETE_JOB_BEGIN,
+    EDIT_JOB_BEGIN,
+    EDIT_JOB_ERROR,
+    EDIT_JOB_SUCCESS,
 } from './actions';
 import { initialState } from './appContext';
 
@@ -105,6 +113,19 @@ const reducer = (state, action) => {
                 alertType: 'danger',
                 alertText: action.payload.msg,
             };
+        case SET_EDIT_JOB:
+            const job = state.jobs.find(job => job._id === action.payload.id);
+            return {
+                ...state,
+                ...job,
+                editJobId: action.payload.id,
+                isEditing: true,
+            };
+        case DELETE_JOB_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+            };
         case CREATE_JOB_BEGIN:
             return {
                 ...state,
@@ -119,6 +140,27 @@ const reducer = (state, action) => {
                 alertText: 'New Job: Created!',
             }
         case CREATE_JOB_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg,
+            };
+        case EDIT_JOB_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case EDIT_JOB_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Job: Updated!',
+            }
+        case EDIT_JOB_ERROR:
             return {
                 ...state,
                 isLoading: false,
