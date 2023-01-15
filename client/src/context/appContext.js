@@ -25,6 +25,8 @@ import {
     EDIT_JOB_BEGIN,
     EDIT_JOB_ERROR,
     EDIT_JOB_SUCCESS,
+    SHOW_STATS_BEGIN,
+    SHOW_STATS_SUCCESS,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -50,6 +52,8 @@ const initialState = {
     status: 'pending',
     showSidebar: false,
     jobs: [],
+    monthlyApplications: [],
+    stats: {},
     totalJobs: 0,
     page: 1,
     numOfPages: 1,
@@ -277,9 +281,7 @@ const AppProvider = ({ children }) => {
     };
 
     const editJob = async () => {
-        dispatch({
-            type: EDIT_JOB_BEGIN,
-        });
+        dispatch({ type: EDIT_JOB_BEGIN });
 
         try {
             const { position, company, jobLocation, jobType, status } = state;
@@ -323,6 +325,26 @@ const AppProvider = ({ children }) => {
         }
     };
 
+    const showStats = async () => {
+        dispatch({ type: SHOW_STATS_BEGIN });
+
+        try {
+            const { data } = await authFetch('/jobs/stats');
+            dispatch({
+                type: SHOW_STATS_SUCCESS,
+                payload: {
+                    stats: data.defaultStats,
+                    monthlyApplications: data.monthlyApplications,
+                },
+            });
+        } catch (err) {
+            console.error(err);
+            // logoutUser();
+        }
+
+        clearAlert();
+    };
+
     return <AppContext.Provider
         value={{
             ...state,
@@ -339,6 +361,7 @@ const AppProvider = ({ children }) => {
             setEditJob,
             editJob,
             deleteJob,
+            showStats,
         }}
     >{ children }</AppContext.Provider>;
 }

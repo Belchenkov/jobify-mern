@@ -22,6 +22,8 @@ import {
     EDIT_JOB_BEGIN,
     EDIT_JOB_ERROR,
     EDIT_JOB_SUCCESS,
+    SHOW_STATS_BEGIN,
+    SHOW_STATS_SUCCESS,
 } from './actions';
 import { initialState } from './appContext';
 
@@ -168,6 +170,19 @@ const reducer = (state, action) => {
                 alertType: 'danger',
                 alertText: action.payload.msg,
             };
+        case SHOW_STATS_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+                showAlert: false,
+            };
+        case SHOW_STATS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                stats: action.payload.stats,
+                monthlyApplications: action.payload.monthlyApplications,
+            }
         case HANDLE_CHANGE:
             return {
                 ...state,

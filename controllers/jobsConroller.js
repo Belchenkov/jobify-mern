@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
+import mongoose from 'mongoose';
 
 import Job from '../models/Job.js';
 import UnprocessableEntityError from '../errors/unprocessable-entity.js';
 import { NotFoundError } from '../errors/index.js';
 import checkPermissions from '../utils/checkPermissions.js';
-import mongoose from 'mongoose';
 
 const createJob = async (req, res) => {
     const {
