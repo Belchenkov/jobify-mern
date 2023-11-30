@@ -100,7 +100,8 @@ const deleteJob = async (req, res) => {
 
 const showStats = async (req, res) => {
     let stats = await Job.aggregate([
-        { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+        // { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+        { $match: { createdBy: mongoose.Types.ObjectId('63628d5d178e918562ef9ce8') } },
         { $group: { _id: '$status', count: { $sum: 1 } } },
     ]);
     stats = stats.reduce((acc, curr) => {
@@ -116,7 +117,8 @@ const showStats = async (req, res) => {
     };
 
     let monthlyApplications = await Job.aggregate([
-        { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+        // { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+        { $match: { createdBy: mongoose.Types.ObjectId('63628d5d178e918562ef9ce8') } },
         {
             $group: {
                 _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
@@ -126,6 +128,7 @@ const showStats = async (req, res) => {
         { $sort: { '_id.year': -1, '_id.month': -1 } },
         { $limit: 6 },
     ]);
+
     monthlyApplications = monthlyApplications
         .map((item) => {
             const {

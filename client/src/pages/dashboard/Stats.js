@@ -6,7 +6,7 @@ import Loading from '../../components/Loading';
 import ChartsContainer from '../../components/ChartsContainer';
 
 const Stats = () => {
-    const { showStats, isLoading, monthApplications } = useAppContext();
+    const { showStats, isLoading, monthlyApplications } = useAppContext();
 
     useEffect(() => {
         showStats();
@@ -19,8 +19,7 @@ const Stats = () => {
     return (
         <>
             <StatsContainer />
-
-            { monthApplications?.length > 0 && <ChartsContainer /> }
+            { monthlyApplications?.length > 0 && <ChartsContainer /> }
         </>
     );
 };
