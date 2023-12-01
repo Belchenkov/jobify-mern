@@ -4,14 +4,14 @@ import {
     XAxis,
     YAxis,
     CartesianGrid,
-    BarChart as BrChart,
+    BarChart,
     ResponsiveContainer,
 } from 'recharts';
 
-const BarChart = ({ data }) => {
+const BarChartComponent = ({ data }) => {
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <BrChart
+            <BarChart
                 data={data}
                 margin={{
                     top:50,
@@ -22,9 +22,9 @@ const BarChart = ({ data }) => {
                 <YAxis allowDecimals={false} />
                 <Tooltip />
                 <Bar dataKey='count' fill='#2cb1bc' barSize={75} />
-            </BrChart>
+            </BarChart>
         </ResponsiveContainer>
     );
 };
 
-export default BarChart;
+export default BarChartComponent;
