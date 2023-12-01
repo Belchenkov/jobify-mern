@@ -8,10 +8,21 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 
-const BarChart = () => {
+const BarChart = ({ data }) => {
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <h2>Bar Chart</h2>
+            <BrChart
+                data={data}
+                margin={{
+                    top:50,
+                }}
+            >
+                <CartesianGrid strokeDasharray='3 3 ' />
+                <XAxis dataKey='date' />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar dataKey='count' fill='#2cb1bc' barSize={75} />
+            </BrChart>
         </ResponsiveContainer>
     );
 };
