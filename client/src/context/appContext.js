@@ -27,6 +27,7 @@ import {
     EDIT_JOB_SUCCESS,
     SHOW_STATS_BEGIN,
     SHOW_STATS_SUCCESS,
+    CLEAR_FILTERS,
 } from './actions';
 
 const token = localStorage.getItem('token');
@@ -57,6 +58,11 @@ const initialState = {
     totalJobs: 0,
     page: 1,
     numOfPages: 1,
+    search: '',
+    searchStatus: 'all',
+    searchType: 'all',
+    sort: 'latest',
+    sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
 };
 
 const AppContext = React.createContext();
@@ -95,6 +101,10 @@ const AppProvider = ({ children }) => {
         setTimeout(() => {
             dispatch({ type: CLEAR_ALERT });
         }, 3000);
+    };
+
+    const clearFilters = () => {
+        dispatch({ type: CLEAR_FILTERS });
     };
 
     const setupUser = async ({ currentUser, endpoint, alertText }) => {
@@ -208,7 +218,17 @@ const AppProvider = ({ children }) => {
     };
 
     const getJobs = async () => {
-        const url = '/jobs';
+        const {
+            search,
+            searchStatus,
+            searchType,
+            sort,
+        } = state;
+        let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+
+        if (search) {
+            url = `${url}&search=${search}`;
+        }
 
         dispatch({
             type: GET_JOBS_BEGIN,
@@ -362,6 +382,7 @@ const AppProvider = ({ children }) => {
             editJob,
             deleteJob,
             showStats,
+            clearFilters,
         }}
     >{ children }</AppContext.Provider>;
 }

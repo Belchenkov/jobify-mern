@@ -44,11 +44,11 @@ const getAllJobs = async (req, res) => {
         createdBy: '63628d5d178e918562ef9ce8',
     };
 
-    if (status !== 'all') {
+    if (status && status !== 'all') {
         queryObject.status = status;
     }
 
-    if (jobType !== 'all') {
+    if (jobType && jobType !== 'all') {
         queryObject.jobType = jobType;
     }
 

@@ -6,11 +6,21 @@ import Wrapper from '../assets/wrappers/JobsContainer';
 import Job from './Job';
 
 const JobsContainer = () => {
-    const { jobs, isLoading, page, totalJobs, getJobs } = useAppContext();
+    const {
+        jobs,
+        isLoading,
+        page,
+        totalJobs,
+        getJobs,
+        search,
+        searchStatus,
+        searchType,
+        sort,
+    } = useAppContext();
 
     useEffect(() => {
         getJobs();
-    }, []);
+    }, [searchType, search, searchStatus, sort]);
 
     if (isLoading) {
         return <Loading center />;
