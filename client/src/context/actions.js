@@ -34,3 +34,5 @@ export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const CLEAR_FILTERS = 'CLEAR_FILTERS';
+
+export const CHANGE_PAGE = 'CHANGE_PAGE';
