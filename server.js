@@ -3,6 +3,10 @@ import dotenv from 'dotenv';
 import 'express-async-errors';
 import morgan from 'morgan';
 
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
 import connectDB from './db/connect.js';
 import authRouter from './routes/authRoutes.js';
 import jobsRouter from './routes/jobsRoutes.js';
@@ -31,11 +35,20 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 }
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 app.use(express.json());
+// only when ready to deploy
+//app.use(express.static(path.resolve(__dirname, './client/build')));
 
 // Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+
+// only when ready to deploy
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+// });
 
 // Middlewares
 app.use(notFoundMiddleware);
