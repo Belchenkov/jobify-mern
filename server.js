@@ -2,6 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import 'express-async-errors';
 import morgan from 'morgan';
+import helmet from 'helmet';
+import xss from 'xss-clean';
+import mongoSanitize from 'express-mongo-sanitize';
 
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -38,6 +41,9 @@ if (process.env.NODE_ENV !== 'production') {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json());
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
 // only when ready to deploy
 //app.use(express.static(path.resolve(__dirname, './client/build')));
 
