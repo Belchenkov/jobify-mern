@@ -32,3 +32,5 @@ export const SHOW_STATS_SUCCESS = 'SHOW_STATS_SUCCESS';
 
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const LOGOUT_USER = 'LOGOUT_USER';
+
+export const CLEAR_FILTERS = 'CLEAR_FILTERS';
