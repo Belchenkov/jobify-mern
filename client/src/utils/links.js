@@ -1,5 +1,5 @@
 import { IoBarChartSharp } from 'react-icons/io5';
-import { MdQueryStats } from 'react-icons/md';
+import { MdAdminPanelSettings, MdQueryStats } from 'react-icons/md';
 import { FaWpforms } from 'react-icons/fa';
 import { ImProfile } from 'react-icons/im';
 
@@ -27,6 +27,12 @@ const links = [
         text: 'profile',
         path: 'profile',
         icon: <ImProfile />
+    },
+    {
+        id: 5,
+        text: 'admin',
+        path: 'admin',
+        icon: <MdAdminPanelSettings />
     },
 ];
 
