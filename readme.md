@@ -2,7 +2,9 @@
 
 > Build Full Stack "Track Your Job Search" App from Scratch with MongoDB, Express, React and NodeJS
 
-###Demo - [Jobify](https://www.jobify.live/)
+### Demo - [Jobify](https://www.jobify.live/)
+
+![Jobify](./screen.png)
 
 #### Run The App Locally
 
